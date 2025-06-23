@@ -1,0 +1,8 @@
+services: 
+  postgres-db:
+    image: postgres
+    ports:
+      - "5431:5432"
+    environment:
+      - PGPORT=5432
+      - POSTGRES_PASSWORD=postgres
