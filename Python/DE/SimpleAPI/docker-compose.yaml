@@ -1,0 +1,44 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: app
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./src/.env
+    depends_on:
+      - keycloak-auth
+    restart: on-failure
+    networks:
+      - net
+
+  keycloak-auth:
+    container_name: keycloak-auth
+    image: keycloak
+    ports:
+      - "9090:9090"
+    environment:
+      - KC_BOOTSTRAP_ADMIN_USERNAME=admin
+      - KC_BOOTSTRAP_ADMIN_PASSWORD=admin
+    command: start-dev --http-port=9090 --db postgres --db-url-host keycloak-auth-db --db-username postgres --db-password postgres
+    depends_on:
+      - keycloak-auth-db
+    restart: on-failure
+    networks:
+      - net
+
+  keycloak-auth-db:
+    image: postgres
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/db.sql
+    environment:
+      - POSTGRES_PASSWORD=postgres
+    restart: always
+    networks:
+      - net
+
+networks:
+  net:
+    driver: bridge

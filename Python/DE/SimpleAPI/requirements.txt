@@ -1,0 +1,5 @@
+fastapi[standard]
+sqlalchemy
+alembic
+fastapi_keycloak
+fastapi-keycloak-middleware

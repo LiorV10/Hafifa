@@ -1,0 +1,9 @@
+python-jose[cryptography]
+fastapi[standard]
+psycopg2-binary
+fastapi-sso
+sqlalchemy
+requests
+alembic
+pandas
+regex
