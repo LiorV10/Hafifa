@@ -4,13 +4,13 @@ WITH team_stats AS (
         team.id AS team_id,
         team.name AS team_name,
 		team.primary_color AS primary_color,
-        COUNT(
-			CASE 
-				WHEN (g.home_team_id = team.id AND g.home_team_score > g.away_team_score)
+        COUNT (
+		CASE 
+			WHEN (g.home_team_id = team.id AND g.home_team_score > g.away_team_score)
                 	OR (g.away_team_id = team.id AND g.away_team_score > g.home_team_score)
-                THEN 1 
-			END
-		) AS wins
+                	THEN 1 
+		END
+	) AS wins
     FROM teams AS team
     JOIN games AS g ON team.id IN (g.home_team_id, g.away_team_id)
     GROUP BY team.id
